@@ -1,6 +1,12 @@
 <template>
   <div class="home container">
-    <impulze-list v-if="user"/>
+    <section class="section">
+      <div class="content">
+        <h1>Your Impulzes</h1>
+        <p>Below is a list of all your Impulzes along with their descriptions, statuses and period data.</p>
+      </div>
+      <impulze-list v-if="user"/>
+    </section>
   </div>
 </template>
 

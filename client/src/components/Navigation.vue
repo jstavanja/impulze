@@ -3,7 +3,8 @@
     <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item">
-          Impulze
+          <img src="../assets/logos/white.png" alt="Impulze logo" v-if="inApp">
+          <img src="../assets/logos/primary.png" alt="Impulze logo" v-else>
         </a>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -23,6 +24,11 @@
         </div>
 
         <div class="navbar-end">
+
+          <div class="navbar-item" v-if="user">
+            Welcome back, {{ user.username }}!
+          </div>
+
           <div class="navbar-item">
             <div class="buttons">
               <a class="button is-primary" v-if="!user">
