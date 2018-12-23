@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar" :class="{'is-primary': user}" role="navigation" aria-label="main navigation">
+  <nav class="navbar" :class="{'is-primary': inApp}" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item">

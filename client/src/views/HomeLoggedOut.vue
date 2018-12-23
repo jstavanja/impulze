@@ -12,8 +12,11 @@
     <section class="section">
       <div class="container content">
         <p>Hello and welcome to Impulze.</p>
-        <div class="greeting">
+        <div class="greeting" v-if="!user">
           To use the app please <router-link to="/login" tag="button" class="btn-login button is-dark">Log in</router-link> or <router-link to="/signup" tag="button" class="btn-signup button is-primary">Sign up</router-link> if you don't yet have an account.
+        </div>
+        <div class="greeting" v-else>
+          To use the app you can go back by clicking the Back to app button in the navigation or this <router-link to="/app" tag="button" class="btn-login button is-dark">Magic button</router-link>.
         </div>
       </div>
     </section>
