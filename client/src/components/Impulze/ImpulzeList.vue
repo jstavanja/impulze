@@ -1,6 +1,18 @@
 <template>
   <div class="impulzes">
-    <section>
+    <section class="section" v-if="hasIntervalsRunning">
+      <article class="message is-info currently-active-impulzes">
+        <div class="message-body">
+          <strong>Currently active Impulzes:</strong>
+          <span class="tag is-success active-impulze" v-for="(intervalName, idx) in Object.values(intervalNames)" :key="idx">{{ intervalName }}</span>
+        </div>
+      </article>
+    </section>
+    <div class="container">
+      <a class="button is-success" @click="applyNotificationTimers">Start all impulzes</a>
+      <a class="btn-stop-all-impulzes button is-danger" @click="stopNotificationTimers">Stop all impulzes</a>
+    </div>
+    <section class="section">
       <b-table
         :data="impulzes"
         :hoverable="true"
@@ -26,7 +38,7 @@
           </b-table-column>
 
           <b-table-column label="Period">
-            {{ props.row.period }}
+            {{ props.row.formattedPeriod }}
           </b-table-column>
 
           <b-table-column label="Actions" centered>
@@ -54,12 +66,21 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
       impulzes: [],
-      isLoading: true
+      isLoading: true,
+      intervalsRunning: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'intervals',
+      'intervalNames',
+      'hasIntervalsRunning'
+    ])
   },
   async mounted () {
     let allImpulzes = []
@@ -67,7 +88,7 @@ export default {
     try {
       allImpulzes = await axios.get('/impulze/')
       this.impulzes = allImpulzes.data.map(impulze => {
-        impulze['period'] = this.formatTimeString(impulze['period'])
+        impulze['formattedPeriod'] = this.formatTimeString(impulze['period'])
         impulze['delete'] = () => {
           axios.delete(`/impulze/${impulze['_id']}`)
         }
@@ -94,11 +115,52 @@ export default {
       } else {
         return days + ' days'
       }
+    },
+    applyNotificationTimers () {
+      this.impulzes.filter(impulze => impulze.active)
+        .forEach(impulze => {
+          if (!this.intervals[impulze._id]) {
+            const intervalID = setInterval(() => {
+              this.$notification.show(impulze['name'], {
+                body: impulze['description']
+              }, {})
+            }, impulze['period'])
+            this.$store.commit('addInterval', { id: impulze._id, interval: intervalID, name: impulze['name'] })
+            this.successNotification(`Successfully started Impulze: ${impulze['name']}`)
+          }
+        })
+    },
+    stopNotificationTimers () {
+      for (const id of Object.keys(this.intervals)) {
+        this.$store.commit('removeInterval', { id })
+      }
+      this.dangerNotification('Stopped all Impulzes')
+    },
+    successNotification (message) {
+      this.$toast.open({
+        message,
+        type: 'is-success'
+      })
+    },
+    dangerNotification (message) {
+      this.$toast.open({
+        message,
+        type: 'is-danger'
+      })
     }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .impulzes {
+    .btn-stop-all-impulzes {
+      margin-left: 10px;
+    }
+    .currently-active-impulzes {
+      .active-impulze {
+        margin-left: 10px;
+      }
+    }
+  }
 </style>

@@ -10105,6 +10105,11 @@ vue-loader@^15.4.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-native-notification@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/vue-native-notification/-/vue-native-notification-1.0.5.tgz#44fa185e4b48f376ef7ce2d2ddde8740f2aa40dc"
+  integrity sha512-ssuJtSMP2LwL5P15JDxHbpW4s6xt9oyE06wvUoqJsgwB5yp6vvohiCGIBd5Ew7HcBZnb/T+b6Rihdo0dJNMLqQ==
+
 vue-router@^3.0.1:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
