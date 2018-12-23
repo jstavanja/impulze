@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <div id="impulze-app" v-if="user">
-      <navigation />
-      <router-view />
-    </div>
+    <navigation />
+    <router-view v-if="user" />
     <div id="login" v-else>
       <login />
     </div>
