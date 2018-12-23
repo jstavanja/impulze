@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="login" v-if="!user">
       <section class="hero is-primary">
         <div class="hero-body">
           <div class="container">
@@ -20,9 +20,27 @@
 
 <script>
 import LoginForm from '../components/Login/LoginForm'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     LoginForm
+  },
+  computed: {
+    ...mapGetters([
+      'user'
+    ])
+  },
+  watch: {
+    user (currValue, oldValue) {
+      if (currValue !== undefined) {
+        this.$router.push({ name: 'home-app' })
+      }
+    }
+  },
+  mounted () {
+    if (this.user) {
+      this.$router.push({ name: 'home-app' })
+    }
   }
 }
 </script>

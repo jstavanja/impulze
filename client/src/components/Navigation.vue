@@ -2,10 +2,12 @@
   <nav class="navbar" :class="{'is-primary': inApp}" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
-        <a class="navbar-item">
-          <img src="../assets/logos/white.png" alt="Impulze logo" v-if="inApp">
-          <img src="../assets/logos/primary.png" alt="Impulze logo" v-else>
-        </a>
+        <router-link to="/app" tag="a" class="navbar-item" v-if="inApp">
+          <img src="../assets/logos/white.png" alt="Impulze logo">
+        </router-link>
+        <router-link to="/" tag="a" class="navbar-item" v-else>
+          <img src="../assets/logos/primary.png" alt="Impulze logo">
+        </router-link>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
@@ -16,7 +18,7 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item" v-if="user">
+          <a class="navbar-item" v-if="user && inApp">
             <a class="button is-success" @click="openAddImpulzeModal">
               <strong>Add an Impulze</strong>
             </a>
