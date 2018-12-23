@@ -18,6 +18,10 @@ const ImpulzeSchema = new Schema({
   active: {
     type: Boolean,
     default: true
+  },
+  _author: {
+    type: Schema.Types.ObjectId,
+    ref: 'author'
   }
 })
 

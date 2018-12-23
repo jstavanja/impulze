@@ -2,9 +2,12 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const impulzesRouter = require('./routes/impulze')
+const usersRouter = require('./routes/user')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const config = require('./config/keys')
+
+const authUtils = require('./utils/authUtil')
 
 // Settings
 const port = process.env.PORT || 3000
@@ -17,14 +20,15 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.use('/api/impulze', impulzesRouter)
+app.use('/api/impulze', authUtils.verifyToken, impulzesRouter)
+app.use('/api/auth', usersRouter)
 
 // Database connection
 mongoose.connect(`mongodb://${mongoUser}:${mongoPassword}@${mongoURI}`)
   .then(() => console.log('MongoDB connected'))
-  .catch(() => console.error('Cannot connect to MongoDB database'))
+  .catch((e) => console.error(e))
 
 // We run the server
-app.listen(port, function() {
+app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })
