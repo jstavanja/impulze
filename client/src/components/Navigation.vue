@@ -17,6 +17,9 @@
         <a class="navbar-item">
           Home
         </a>
+        <a class="navbar-item" @click="openAddImpulzeModal">
+          Add an Impulze
+        </a>
       </div>
 
       <div class="navbar-end">
@@ -41,6 +44,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import AddImpulzeModal from './Modals/AddImpulzeModal'
 export default {
   computed: {
     ...mapGetters([
@@ -51,6 +55,13 @@ export default {
     logout () {
       localStorage.removeItem('user-token')
       this.$store.commit('logout')
+    },
+    openAddImpulzeModal () {
+      this.$modal.open({
+        parent: this,
+        component: AddImpulzeModal,
+        hasModalCard: true
+      })
     }
   }
 }

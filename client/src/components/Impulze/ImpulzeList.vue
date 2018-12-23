@@ -8,10 +8,6 @@
         :mobile-cards="true">
 
         <template slot-scope="props">
-          <b-table-column field="_id" label="ID" width="10">
-            {{ props.row._id }}
-          </b-table-column>
-
           <b-table-column field="name" label="Name">
             {{ props.row.name }}
           </b-table-column>
@@ -66,11 +62,32 @@ export default {
     this.isLoading = true
     try {
       allImpulzes = await axios.get('/impulze/')
-      this.impulzes = allImpulzes.data
+      this.impulzes = allImpulzes.data.map(impulze => {
+        impulze['period'] = this.formatTimeString(impulze['period'])
+        return impulze
+      })
     } catch (err) {
       alert(err)
     }
     this.isLoading = false
+  },
+  methods: {
+    formatTimeString (millisec) {
+      const seconds = (millisec / 1000).toFixed(1)
+      const minutes = (millisec / (1000 * 60)).toFixed(1)
+      const hours = (millisec / (1000 * 60 * 60)).toFixed(1)
+      const days = (millisec / (1000 * 60 * 60 * 24)).toFixed(1)
+
+      if (seconds < 60) {
+        return seconds + ' seconds'
+      } else if (minutes < 60) {
+        return minutes + ' minutes'
+      } else if (hours < 24) {
+        return hours + ' hours'
+      } else {
+        return days + ' days'
+      }
+    }
   }
 }
 </script>

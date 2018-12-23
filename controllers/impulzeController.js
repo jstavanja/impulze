@@ -18,6 +18,7 @@ const store = (req, res) => {
     name: req.body.name,
     description: req.body.description,
     period: req.body.period,
+    active: req.body.active ? req.body.active : true,
     _author: req.auth.user._id
   })
 
