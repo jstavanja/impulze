@@ -19,26 +19,40 @@
         </a>
       </div>
 
-      <!-- <div class="navbar-end">
+      <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
+            <a class="button is-primary" v-if="!user">
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light">
+            <a class="button is-light" v-if="!user">
               Log in
+            </a>
+            <a class="button is-primary" v-if="user" @click="logout">
+              Log out
             </a>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </nav>
 
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-
+  computed: {
+    ...mapGetters([
+      'user'
+    ])
+  },
+  methods: {
+    logout () {
+      localStorage.removeItem('user-token')
+      this.$store.commit('logout')
+    }
+  }
 }
 </script>
 

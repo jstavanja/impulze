@@ -10,6 +10,9 @@ export default new Vuex.Store({
   mutations: {
     login (state, userData) {
       state.user = userData
+    },
+    logout (state) {
+      state.user = null
     }
   },
   getters: {
