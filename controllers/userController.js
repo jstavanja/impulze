@@ -38,7 +38,6 @@ const login = (req, res) => {
     } else {
       jwt.sign({user}, process.env.JWT_SECRET, (err, token) => {
         if (err) {
-          console.error(err)
           return res.status(500).end()
         }
         return res.json({token})
@@ -47,6 +46,18 @@ const login = (req, res) => {
   })
 }
 
+// @route GET /api/auth/info
+// @desc returns INFORMATION about the current logged in user (JWT token parse)
+// @access public
+const info = (req, res) => {
+  // remove password from response
+  if (req.auth) {
+    res.json(req.auth.user)
+  } else {
+    res.status(403).end()
+  }
+}
+
 module.exports = {
-  register, login
+  register, login, info
 }

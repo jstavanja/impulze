@@ -18,13 +18,15 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: true,
+    select: false,
   },
-  impulzes: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'impulze'
-    }
-  ],
+  // impulzes: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: 'impulze',
+  //     select: false
+  //   },
+  // ],
 })
 
 // @REGISTER
@@ -41,9 +43,8 @@ UserSchema.pre('save', function (next) {
 
 // @LOGIN
 UserSchema.statics.authenticate = (email, password, callback) => {
-  User.findOne({ email: email })
+  User.findOne({ email: email }).select('+password')
     .exec((err, user) => {
-
       if (err) {
         return callback(err)
       } else if (!user) {
@@ -52,9 +53,16 @@ UserSchema.statics.authenticate = (email, password, callback) => {
         return callback(err)
       }
 
+      // we only want to return the things we can share
+      const userInfo = {
+        _id: user._id, 
+        email: user.email,
+        username: user.username 
+      }
+
       bcrypt.compare(password, user.password, (err, result) => {
         if (result === true) {
-          return callback(null, user)
+          return callback(null, userInfo)
         } else {
           return callback()
         }
