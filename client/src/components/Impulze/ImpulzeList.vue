@@ -28,6 +28,10 @@
           <b-table-column label="Period">
             {{ props.row.period }}
           </b-table-column>
+
+          <b-table-column label="Actions" centered>
+            <div class="button is-small is-danger" @click="props.row.delete">X</div>
+          </b-table-column>
         </template>
 
         <template slot="empty">
@@ -64,6 +68,9 @@ export default {
       allImpulzes = await axios.get('/impulze/')
       this.impulzes = allImpulzes.data.map(impulze => {
         impulze['period'] = this.formatTimeString(impulze['period'])
+        impulze['delete'] = () => {
+          axios.delete(`/impulze/${impulze['_id']}`)
+        }
         return impulze
       })
     } catch (err) {
