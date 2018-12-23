@@ -49,6 +49,7 @@ export default {
         .then((token) => axios.get('/auth/info'))
         .then((res) => {
           this.$store.commit('login', res.data)
+          this.$router.push({ name: 'home-app' })
         })
         .catch(() => {
           alert('Invalid username or password.')

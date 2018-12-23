@@ -4,10 +4,10 @@
         <div class="hero-body">
           <div class="container">
             <h1 class="title">
-              Impulze
+              Log in
             </h1>
             <h2 class="subtitle">
-              Log in or register to never forget anything.
+              You're just a click away from never forgetting anything anymore.
             </h2>
           </div>
         </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import LoginForm from './LoginForm'
+import LoginForm from '../components/Login/LoginForm'
 export default {
   components: {
     LoginForm

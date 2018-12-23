@@ -1,39 +1,41 @@
 <template>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item">
-        Impulze
-      </a>
-
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
+  <nav class="navbar" :class="{'is-primary': user}" role="navigation" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
         <a class="navbar-item">
-          Home
+          Impulze
         </a>
-        <a class="navbar-item" @click="openAddImpulzeModal">
-          Add an Impulze
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
         </a>
       </div>
 
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-primary" v-if="!user">
-              <strong>Sign up</strong>
-            </a>
-            <a class="button is-light" v-if="!user">
-              Log in
-            </a>
-            <a class="button is-primary" v-if="user" @click="logout">
-              Log out
-            </a>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item">
+            Home
+          </a>
+          <a class="navbar-item" @click="openAddImpulzeModal" v-if="user">
+            Add an Impulze
+          </a>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary" v-if="!user">
+                <strong>Sign up</strong>
+              </a>
+              <router-link to="/login" class="button is-light" tag="a" v-if="!user">
+                Log in
+              </router-link>
+              <a class="button is-danger" v-if="user" @click="logout">
+                Log out
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -55,6 +57,7 @@ export default {
     logout () {
       localStorage.removeItem('user-token')
       this.$store.commit('logout')
+      this.$router.push({ name: 'home-logged-out' })
     },
     openAddImpulzeModal () {
       this.$modal.open({

@@ -67,7 +67,7 @@ export default {
       name: '',
       description: '',
       active: true,
-      period: "01:00:00"
+      period: '01:00:00'
     }
   },
   methods: {
@@ -82,8 +82,8 @@ export default {
     },
     getMillisecondsFromPeriodString (periodString) {
       const hms = periodString.split(':')
-      const hours = periodString[0]
-      const minutes = periodString[1]
+      const hours = hms[0]
+      const minutes = hms[1]
       return (minutes * 60 * 1000) + (hours * 60 * 60 * 1000)
     }
   }

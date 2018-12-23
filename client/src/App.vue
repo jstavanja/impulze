@@ -1,17 +1,13 @@
 <template>
   <div id="app">
     <navigation />
-    <router-view v-if="user" />
-    <div id="login" v-else>
-      <login />
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Navigation from './components/Navigation'
-import Login from './components/Login/Login'
 import { mapGetters } from 'vuex'
 export default {
   computed: {
@@ -20,8 +16,7 @@ export default {
     ])
   },
   components: {
-    Navigation,
-    Login
+    Navigation
   },
   created () {
     axios.defaults.baseURL = 'http://localhost:3000/api/'
