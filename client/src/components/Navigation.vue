@@ -15,11 +15,10 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item">
-            Home
-          </a>
-          <a class="navbar-item" @click="openAddImpulzeModal" v-if="user">
-            Add an Impulze
+          <a class="navbar-item" v-if="user">
+            <a class="button is-success" @click="openAddImpulzeModal">
+              <strong>Add an Impulze</strong>
+            </a>
           </a>
         </div>
 
@@ -31,6 +30,9 @@
               </a>
               <router-link to="/login" class="button is-light" tag="a" v-if="!user">
                 Log in
+              </router-link>
+              <router-link to="/app" class="button is-light" tag="a" v-if="!inApp && user">
+                Back to app
               </router-link>
               <a class="button is-danger" v-if="user" @click="logout">
                 Log out
@@ -51,7 +53,10 @@ export default {
   computed: {
     ...mapGetters([
       'user'
-    ])
+    ]),
+    inApp () {
+      return this.$route.path === '/app'
+    }
   },
   methods: {
     logout () {
