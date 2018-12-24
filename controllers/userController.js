@@ -22,7 +22,13 @@ const register = (req, res) => {
   
     newUser.save()
       .then(user => res.status(200).end())
-      .catch(err => res.status(500).json({success: false, error: err}))
+      .catch(err => {
+        if (11000 === err.code || 11001 === err.code) {
+          res.status(500).json({success: false, error: 'A user with that email or username already exists'})
+        } else {
+          res.status(500).json({success: false, error: err.message})
+        }
+      })
   } else {
     return res.status(400).json({success: false, error: 'Insufficient data / missing fields.'})
   }
