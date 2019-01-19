@@ -9,14 +9,14 @@
           <img src="../assets/logos/primary.png" alt="Impulze logo">
         </router-link>
 
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" @click="toggleNavbarActive">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
 
-      <div id="navbarBasicExample" class="navbar-menu">
+      <div id="navbar" class="navbar-menu" :class="{ 'is-active': navbarActive}">
         <div class="navbar-start">
           <a class="navbar-item" v-if="user && inApp">
             <a class="button is-success" @click="openAddImpulzeModal">
@@ -58,6 +58,11 @@
 import { mapGetters } from 'vuex'
 import AddImpulzeModal from './Modals/AddImpulzeModal'
 export default {
+  data () {
+    return {
+      navbarActive: false
+    }
+  },
   computed: {
     ...mapGetters([
       'user'
@@ -78,6 +83,9 @@ export default {
         component: AddImpulzeModal,
         hasModalCard: true
       })
+    },
+    toggleNavbarActive () {
+      this.navbarActive = !this.navbarActive
     }
   }
 }
