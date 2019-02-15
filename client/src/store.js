@@ -18,8 +18,8 @@ export default new Vuex.Store({
       state.user = null
     },
     addInterval (state, payload) {
-      state.intervals[payload.id] = payload.interval
-      state.intervalNames[payload.id] = payload.name
+      Vue.set(state.intervals, payload.id, payload.interval)
+      Vue.set(state.intervalNames, payload.id, payload.name)
       state.hasIntervalsRunning = true
     },
     removeInterval (state, payload) {

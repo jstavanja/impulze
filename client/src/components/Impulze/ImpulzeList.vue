@@ -9,8 +9,13 @@
       </article>
     </section>
     <div class="container">
-      <a class="button is-success" @click="applyNotificationTimers">Start all impulzes</a>
-      <a class="btn-stop-all-impulzes button is-danger" @click="stopNotificationTimers">Stop all impulzes</a>
+      <a class="button is-success" @click="startNotificationTimers" v-if="Object.keys(intervals).length < impulzes.length">
+        Start all
+        <span v-if="Object.keys(intervals).length > 0">&nbsp;remaining&nbsp;</span>
+        impulzes
+      </a>
+
+      <a class="btn-stop-all-impulzes button is-danger" @click="stopNotificationTimers" v-if="Object.keys(intervals).length > 0">Stop all impulzes</a>
     </div>
     <section class="section">
       <b-table
@@ -41,8 +46,10 @@
             {{ props.row.formattedPeriod }}
           </b-table-column>
 
-          <b-table-column label="Actions" centered>
-            <div class="button is-small is-danger" @click="props.row.delete">X</div>
+          <b-table-column label="Actions" centered class="actions-column">
+            <div class="button is-success" @click="startNotificationTimer(props.row)" v-if="!Object.keys(intervals).includes(props.row._id)">Activate</div>
+            <div class="button is-warning" @click="stopNotificationTimer(props.row._id)" v-else>Deactivate</div>
+            <div class="button is-small is-danger" @click="props.row.delete">Remove</div>
           </b-table-column>
         </template>
 
@@ -88,7 +95,7 @@ export default {
     try {
       allImpulzes = await axios.get('/impulze/')
       this.impulzes = allImpulzes.data.map(impulze => {
-        impulze['formattedPeriod'] = this.formatTimeString(impulze['period'])
+        impulze['formattedPeriod'] = this.$formatTimeString(impulze['period'])
         impulze['delete'] = () => {
           axios.delete(`/impulze/${impulze['_id']}`)
         }
@@ -100,53 +107,35 @@ export default {
     this.isLoading = false
   },
   methods: {
-    formatTimeString (millisec) {
-      const seconds = (millisec / 1000).toFixed(1)
-      const minutes = (millisec / (1000 * 60)).toFixed(1)
-      const hours = (millisec / (1000 * 60 * 60)).toFixed(1)
-      const days = (millisec / (1000 * 60 * 60 * 24)).toFixed(1)
-
-      if (seconds < 60) {
-        return seconds + ' seconds'
-      } else if (minutes < 60) {
-        return minutes + ' minutes'
-      } else if (hours < 24) {
-        return hours + ' hours'
-      } else {
-        return days + ' days'
+    startNotificationTimer (impulze) {
+      if (!this.intervals[impulze._id]) {
+        const intervalID = setInterval(() => {
+          this.$notification.show(impulze['name'], {
+            body: impulze['description']
+          }, {})
+        }, impulze['period'])
+        this.$store.commit('addInterval', { id: impulze._id, interval: intervalID, name: impulze['name'] })
+        this.$successNotification(`Successfully started Impulze: ${impulze['name']}`)
       }
     },
-    applyNotificationTimers () {
+    startNotificationTimers () {
       this.impulzes.filter(impulze => impulze.active)
         .forEach(impulze => {
-          if (!this.intervals[impulze._id]) {
-            const intervalID = setInterval(() => {
-              this.$notification.show(impulze['name'], {
-                body: impulze['description']
-              }, {})
-            }, impulze['period'])
-            this.$store.commit('addInterval', { id: impulze._id, interval: intervalID, name: impulze['name'] })
-            this.successNotification(`Successfully started Impulze: ${impulze['name']}`)
-          }
+          this.startNotificationTimer(impulze)
         })
+      this.$successNotification('Successfully started all Impulzes')
+    },
+    stopNotificationTimer (impulzeId) {
+      if (this.intervals[impulzeId]) {
+        this.$dangerNotification(`Stopped Impulze ${this.intervalNames[impulzeId]}`)
+        this.$store.commit('removeInterval', { id: impulzeId })
+      }
     },
     stopNotificationTimers () {
       for (const id of Object.keys(this.intervals)) {
-        this.$store.commit('removeInterval', { id })
+        this.stopNotificationTimer(id)
       }
-      this.dangerNotification('Stopped all Impulzes')
-    },
-    successNotification (message) {
-      this.$toast.open({
-        message,
-        type: 'is-success'
-      })
-    },
-    dangerNotification (message) {
-      this.$toast.open({
-        message,
-        type: 'is-danger'
-      })
+      this.$dangerNotification('Stopped all Impulzes')
     }
   }
 }
@@ -160,6 +149,17 @@ export default {
     .currently-active-impulzes {
       .active-impulze {
         margin-left: 10px;
+      }
+    }
+
+    .actions-column {
+      span { // span element added by buetify inside b-table-column
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .button:not(:last-child) {
+        margin-right: 10px;
       }
     }
   }
