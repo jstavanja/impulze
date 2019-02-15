@@ -61,12 +61,27 @@ export default {
     }
   },
   methods: {
-    addImpulze () {
-      axios.post('/impulze', {
-        name: this.name,
-        description: this.description,
-        period: this.getMillisecondsFromPeriodString(this.period)
-      })
+    async addImpulze () {
+      let response
+      try {
+        response = await axios.post('/impulze', {
+          name: this.name,
+          description: this.description,
+          period: this.getMillisecondsFromPeriodString(this.period)
+        })
+      } catch (e) {
+        this.$dangerNotification('Something went wrong. Please, try again (later).')
+        return
+      }
+
+      let newImpulze = response.data
+      newImpulze['formattedPeriod'] = this.$formatTimeString(newImpulze['period'])
+      newImpulze['delete'] = () => {
+        axios.delete(`/impulze/${newImpulze['_id']}`)
+        this.$store.commit('removeImpulze', newImpulze._id)
+      }
+      this.$store.commit('addImpulze', newImpulze)
+
       this.$parent.close()
     },
     getMillisecondsFromPeriodString (periodString) {

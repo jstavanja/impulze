@@ -68,13 +68,13 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      impulzes: [],
       isLoading: true,
       intervalsRunning: false
     }
   },
   computed: {
     ...mapGetters([
+      'impulzes',
       'intervals',
       'intervalNames',
       'hasIntervalsRunning'
@@ -85,13 +85,15 @@ export default {
     this.isLoading = true
     try {
       allImpulzes = await axios.get('/impulze/')
-      this.impulzes = allImpulzes.data.map(impulze => {
+      const impulzes = allImpulzes.data.map(impulze => {
         impulze['formattedPeriod'] = this.$formatTimeString(impulze['period'])
         impulze['delete'] = () => {
           axios.delete(`/impulze/${impulze['_id']}`)
+          this.$store.commit('removeImpulze', impulze._id)
         }
         return impulze
       })
+      this.$store.commit('setImpulzes', impulzes)
     } catch (err) {
       alert(err)
     }
@@ -110,10 +112,9 @@ export default {
       }
     },
     startNotificationTimers () {
-      this.impulzes.filter(impulze => impulze.active)
-        .forEach(impulze => {
-          this.startNotificationTimer(impulze)
-        })
+      this.impulzes.forEach(impulze => {
+        this.startNotificationTimer(impulze)
+      })
       this.$successNotification('Successfully started all Impulzes')
     },
     stopNotificationTimer (impulzeId) {
