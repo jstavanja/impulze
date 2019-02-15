@@ -19,6 +19,14 @@ The reminders get sent as browser notifications to your operating system, so you
 
 By using browser notifications we can achieve a reminder application, that you don't need to download, but keep in mind that some browsers (mostly older ones) do not support this feature.
 
+## Setup instructions
+
+For local development, you have to create and initialize a MongoDB database, add the mongoURI to the `config/keys.js` file and the `MONGODB_USERNAME` and `MONGODB_PASSWORD` of the user that has access to the database to the environment variables.
+
+You also need to add a `JWT_SECRET` to your environment as well.
+
+Then, go to the root of this project and run `yarn dev` or `npm run dev`.
+
 ## Team
 
 Maintainer: Jaka Stavanja [@jstavanja](https://github.com/jstavanja)
