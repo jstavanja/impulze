@@ -15,10 +15,6 @@ const ImpulzeSchema = new Schema({
     min: 0,
     default: 10 * 60 * 1000 // 10 minutes in milliseconds
   },
-  active: {
-    type: Boolean,
-    default: true
-  },
   _author: {
     type: Schema.Types.ObjectId,
     ref: 'author'

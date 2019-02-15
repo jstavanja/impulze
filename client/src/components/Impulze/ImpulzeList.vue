@@ -33,15 +33,6 @@
             {{ props.row.description }}
           </b-table-column>
 
-          <b-table-column field="status" label="Status" centered>
-            <span class="tag is-success" v-if="props.row.active">
-              Active
-            </span>
-            <span class="tag is-danger" v-else>
-              Deactivated
-            </span>
-          </b-table-column>
-
           <b-table-column label="Period">
             {{ props.row.formattedPeriod }}
           </b-table-column>

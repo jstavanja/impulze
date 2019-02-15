@@ -38,15 +38,6 @@
         </div>
       </div>
 
-      <div class="field">
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" v-model="active">
-            Do you wish to activate the Impulze immediately?
-          </label>
-        </div>
-      </div>
-
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-link" @click="addImpulze">Create Impulze</button>
@@ -66,7 +57,6 @@ export default {
     return {
       name: '',
       description: '',
-      active: true,
       period: '01:00:00'
     }
   },
@@ -75,8 +65,7 @@ export default {
       axios.post('/impulze', {
         name: this.name,
         description: this.description,
-        period: this.getMillisecondsFromPeriodString(this.period),
-        active: this.active
+        period: this.getMillisecondsFromPeriodString(this.period)
       })
       this.$parent.close()
     },
