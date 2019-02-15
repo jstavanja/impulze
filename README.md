@@ -21,11 +21,14 @@ By using browser notifications we can achieve a reminder application, that you d
 
 ## Setup instructions
 
-For local development, you have to create and initialize a MongoDB database, add the mongoURI to the `config/keys.js` file and the `MONGODB_USERNAME` and `MONGODB_PASSWORD` of the user that has access to the database to the environment variables.
+For local development, you have to create and initialize a MongoDB database and set some environment variables.
+
+- `MONGODB_URI` environment variable should contain the URI to the database
+- `MONGODB_USERNAME` and `MONGODB_PASSWORD` should contain the username and password of the user that has R/W access to the database
 
 You also need to add a `JWT_SECRET` to your environment as well.
 
-Then, go to the root of this project and run `yarn dev` or `npm run dev`.
+Then, simply run `yarn dev` or `npm run dev` in the root of the project.
 
 ## Team
 

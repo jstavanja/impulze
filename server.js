@@ -5,13 +5,12 @@ const impulzesRouter = require('./routes/impulze')
 const usersRouter = require('./routes/user')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const config = require('./config/keys')
 
 const authUtils = require('./utils/authUtil')
 
 // Settings
 const port = process.env.PORT || 3000
-const mongoURI = config.mongoURI
+const mongoURI = process.env.MONGODB_URI
 const mongoUser = process.env.MONGODB_USER
 const mongoPassword = encodeURIComponent(process.env.MONGODB_PASSWORD)
 
