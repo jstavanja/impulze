@@ -1,4 +1,4 @@
-# Impulze
+# Impulze [![Build Status](https://travis-ci.org/jstavanja/impulze.svg?branch=master)](https://travis-ci.org/jstavanja/impulze) ![](https://img.shields.io/github/license/jstavanja/impulze.svg?style=flat)
 
 An impulsive reminder app based on recurring things that you need to be reminded about every so often.
 
@@ -21,14 +21,20 @@ By using browser notifications we can achieve a reminder application, that you d
 
 ## Setup instructions
 
-For local development, you have to create and initialize a MongoDB database and set some environment variables.
+When getting started, you will need to install all of this project's dependencies by running `npm install` and `npm run client-install`. That will ensure that you have the correct dependencies installed in your environment for both the server and client applications.
+
+For local development, you will also need to create and initialize a MongoDB database and set some environment variables. You can also use a service like [mlab](https://mlab.com/) or a MongoDB Docker Image, to which you will connect by setting the following variables:
 
 - `MONGODB_URI` environment variable should contain the URI to the database
-- `MONGODB_USERNAME` and `MONGODB_PASSWORD` should contain the username and password of the user that has R/W access to the database
+- `MONGODB_USERNAME` and `MONGODB_PASSWORD` should contain the username and password of the user that has R/W access to the database.
 
-You also need to add a `JWT_SECRET` to your environment as well.
+You also need to add a `JWT_SECRET` to your environment, as this project uses a JSON web token architecture for authenticating users.
 
-Then, simply run `yarn dev` or `npm run dev` in the root of the project.
+Then, simply run `npm run dev` in the root of the project.
+
+To run tests for the server, run `npm run test:server` and to run test for the client application, run `npm run test:client`.
+
+You can also just run `npm test` which will run both test suites (this command also gets executed at every push in the Travis CI service to ensure all the test are passing after making changes in the repository).
 
 ## Team
 
