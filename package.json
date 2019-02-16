@@ -16,17 +16,17 @@
   "author": "Jaka Stavanja <jakastavanja@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "jsonwebtoken": "^8.4.0",
-    "mongoose": "^5.4.0",
-    "validator": "^10.10.0"
+    "bcryptjs": "2.4.3",
+    "cors": "2.8.5",
+    "express": "4.16.4",
+    "jsonwebtoken": "8.4.0",
+    "mongoose": "5.4.0",
+    "validator": "10.10.0"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0",
-    "jest": "^24.1.0",
-    "nodemon": "^1.18.9"
+    "concurrently": "4.1.0",
+    "jest": "24.1.0",
+    "nodemon": "1.18.9"
   },
   "jest": {
     "modulePathIgnorePatterns": ["<rootDir>/client/"]
