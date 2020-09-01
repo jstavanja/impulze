@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.18.1",
-    "buefy": "^0.7.1",
+    "buefy": "^0.7.2",
     "vue": "^2.5.17",
     "vue-ctk-date-time-picker": "^1.4.2",
     "vue-native-notification": "^1.0.5",
