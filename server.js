@@ -15,7 +15,7 @@ const mongoUser = process.env.MONGODB_USER
 const mongoPassword = encodeURIComponent(process.env.MONGODB_PASSWORD)
 
 // Middleware
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
 
@@ -23,7 +23,8 @@ app.use('/api/impulze', authUtils.verifyToken, impulzesRouter)
 app.use('/api/auth', usersRouter)
 
 // Database connection
-mongoose.connect(`mongodb://${mongoUser}:${mongoPassword}@${mongoURI}`)
+mongoose
+  .connect(`mongodb+srv://${mongoUser}:${mongoPassword}@${mongoURI}`)
   .then(() => console.log('MongoDB connected'))
   .catch((e) => console.error(e))
 
